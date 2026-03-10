@@ -44,7 +44,7 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
   const [selected, setSelected] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/services")
+    fetch("/api/services", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => { setServices(d.services || []); setLoading(false); })
       .catch(() => { setError("Could not load services. Please refresh."); setLoading(false); });
