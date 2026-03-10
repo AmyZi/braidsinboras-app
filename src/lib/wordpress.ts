@@ -2,7 +2,9 @@ import { GraphQLClient } from "graphql-request";
 
 const WP_URL = process.env.WORDPRESS_API_URL || "http://wordpress/?graphql";
 
-const client = new GraphQLClient(WP_URL);
+const client = new GraphQLClient(WP_URL, {
+  fetch: (url, init) => fetch(url, { ...init, cache: "no-store" }),
+});
 
 export type Service = {
   id: string;
