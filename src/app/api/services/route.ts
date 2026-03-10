@@ -1,14 +1,35 @@
 import { NextResponse } from "next/server";
-import { getAllServices } from "@/lib/wordpress";
 
-export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const WP_URL = process.env.NEXT_PUBLIC_WP_URL;
+  const wpUser = process.env.WP_ADMIN_USER || "admin";
+  const wpPass = process.env.WP_ADMIN_APP_PASSWORD || "";
+
   try {
-    const services = await getAllServices();
+    const res = await fetch(`${WP_URL}/wp-json/wp/v2/service?per_page=50&status=publish`, {
+      headers: {
+        "Authorization": "Basic " + Buffer.from(`${wpUser}:${wpPass}`).toString("base64"),
+      },
+      cache: "no-store",
+    });
+
+    const data = await res.json();
+
+    const services = data.map((s: any) => ({
+      id: s.id.toString(),
+      slug: s.slug,
+      title: s.title.rendered,
+      price: s.meta?.price || 0,
+      category: s.meta?.category || "",
+      isPopular: s.meta?.is_popular || false,
+      descriptionSv: s.meta?.description_sv || "",
+      available: s.meta?.available !== false, // default true unless explicitly false
+    }));
+
     const response = NextResponse.json({ services });
-    response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
+    response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
