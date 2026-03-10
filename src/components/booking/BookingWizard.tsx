@@ -78,7 +78,7 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                 <div
                   key={service.id}
                   className={`service-card ${selected === service.id ? "selected" : ""} ${isDisabled ? "disabled" : ""}`}
-                  style={isDisabled ? { opacity: 0.5, cursor: "default", pointerEvents: "none" } : { cursor: "pointer" }}
+                  style={isDisabled ? { opacity: 0.5, cursor: "default",  } : { cursor: "pointer" }}
                   onClick={() => {
                     if (isDisabled) return;
                     setSelected(service.id);
