@@ -27,10 +27,8 @@ export async function POST(req: NextRequest) {
   const wpPass = process.env.WP_ADMIN_APP_PASSWORD || "";
 
   try {
-    // Decode GraphQL base64 ID → "post:14" → 14
-    const decoded = Buffer.from(serviceId, "base64").toString("utf-8");
-    const numericId = parseInt(decoded.split(":")[1], 10);
-    console.log("[TOGGLE] decoded ID:", decoded, "numericId:", numericId);
+    const numericId = parseInt(String(serviceId), 10);
+    console.log("[TOGGLE] numericId:", numericId);
 
     // Update WordPress
     const res = await fetch(`${WP_URL}/wp-json/wp/v2/service/${numericId}`, {
