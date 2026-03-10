@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getServices } from "@/lib/api";
+import "@/styles/globals.css";
+
 
 export default async function HomePage() {
 
