@@ -132,7 +132,7 @@ export default function HomePage() {
             href="https://www.amicodes.com"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ opacity: 1, scale: 1.05, filter: `drop-shadow(0 0 5px ${brandGold})` }}
+            whileHover={{ opacity: 1, scale: 1.05, filter: `drop-shadow(0 0 5px --gold})` }}
             style={{ opacity: 0.6, transition: '0.3s', display: "inline-flex", alignItems: "center", verticalAlign: "middle" }}
           >
             <svg viewBox="0 0 320 120"
