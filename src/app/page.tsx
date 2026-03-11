@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getServices } from "@/lib/api";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
+import { motion } from "framer-motion";
 
 export const metadata: Metadata = {
   title: "Braids by Amy | Mobile Braider in Borås",
@@ -25,7 +26,7 @@ const INFO_CARDS = [
     title: "Cancellation & Late Policy",
     icon: "◇",
     items: [
-      "10-minute grace period — £5 late fee for every 10 minutes after",
+      "10-minute grace period — 50kr late fee for every 10 minutes after",
       "After 30 minutes your appointment may be cancelled",
       "No-shows without notice: bank charged, future bookings limited",
       "No reschedule within 48hrs of no-show unless you notify Amy",
@@ -122,7 +123,36 @@ export default function HomePage() {
         <Link href="/booking" className="btn btn-ghost" style={{ width: "auto" }}>
           Book with Amy →
         </Link>
-        <div className="cta-footer">BRAIDS BY AMY · BORÅS · SWEDEN</div>
+        {/* Footer */}
+        <div className="cta-footer">
+          BRAIDS BY AMY · BORÅS · SWEDEN
+          <span style={{ margin: "0 0.5rem", opacity: 0.3 }}>·</span>
+          <span style={{ opacity: 0.6, fontSize: "0.7rem" }}>Built by </span>
+          <motion.a
+            href="https://www.amicodes.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ opacity: 1, scale: 1.05, filter: `drop-shadow(0 0 5px ${brandGold})` }}
+            style={{ opacity: 0.6, transition: '0.3s', display: "inline-flex", alignItems: "center", verticalAlign: "middle" }}
+          >
+            <svg viewBox="0 0 320 120"
+                xmlns="http://www.w3.org/2000/svg"
+                height="1.2em"
+                fill="none">
+                <text x="50%" y="80"
+                      textAnchor="middle"
+                      fontSize="70"
+                      fontFamily="Brush Script MT, Pacifico, cursive"
+                      fill="#e53935">
+                  Amina
+                </text>
+                <path
+                  d="M170 18 C170 8, 185 8, 185 18 C185 8, 200 8, 200 18 C200 30, 185 38, 185 38 C185 38, 170 30, 170 18 Z"
+                  fill="#1e40af"
+                />
+            </svg>
+          </motion.a>
+        </div>
       </section>
 
     </main>

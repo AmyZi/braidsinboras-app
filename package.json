@@ -16,6 +16,7 @@
     "@vercel/analytics": "^1.6.1",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.19",
+    "framer-motion": "^12.35.2",
     "googleapis": "^171.4.0",
     "graphql": "^16.12.0",
     "graphql-request": "^7.4.0",
