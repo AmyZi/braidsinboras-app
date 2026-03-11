@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link";
 import { getAllServices as getServices } from "@/lib/wordpress";
 import "@/styles/globals.css";
