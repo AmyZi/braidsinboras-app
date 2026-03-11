@@ -1,15 +1,18 @@
-import { getServices } from "@/lib/api";
+import type { Metadata } from "next";
+import { getAllServices } from "@/lib/wordpress";
+
+
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  const services = await getServices();
+  const services = await getAllServices();
   return services.map(s => ({ slug: s.slug }));
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const title = `${slug.replace(/-/g, " ")} in Borås`;
   const desc = `Book professional ${title}. Expert braiding service with online scheduling.`;
