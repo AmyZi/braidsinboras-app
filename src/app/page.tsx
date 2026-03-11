@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getServices } from "@/lib/api";
 import "@/styles/globals.css";
-
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Braids by Amy | Mobile Braider in Borås",
