@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getServices } from "@/lib/api";
+import { getAllServices as getServices } from "@/lib/wordpress";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { motion } from "framer-motion";

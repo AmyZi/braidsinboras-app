@@ -1,4 +1,4 @@
-import { getServices } from "@/lib/api";
+import { getAllServices as getServices } from "@/lib/wordpress";
 
 interface Props {
   params: Promise<{ slug: string }>;
