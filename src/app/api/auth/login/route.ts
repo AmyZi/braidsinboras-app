@@ -19,6 +19,11 @@ export async function POST(req: NextRequest) {
         "Authorization": "Basic " + Buffer.from(`${username}:${password}`).toString("base64"),
         "Content-Type": "application/json",
       },
+      signal: AbortSignal.timeout(10000), // 10 second timeout
+    }).catch(err => {
+      console.error("[AUTH] Fetch error details:", err.cause, err.message);
+      throw err;
+
     });
 
     console.log("[AUTH] WP response status:", res.status);
