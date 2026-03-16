@@ -836,6 +836,20 @@ h1, h2, h3 {
   color: #4a4540;
   letter-spacing: 0.1em;
 }
+/* ── Accessibility ── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Minimum text sizes */
+.progress-label,
+.step-label,
+.badge,
+.policy-text {
+  font-size: 0.75rem;
+}
 
 /* ── Responsive ── */
 @media (max-width: 600px) {

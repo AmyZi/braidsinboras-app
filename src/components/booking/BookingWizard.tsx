@@ -75,10 +75,21 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
             {services.filter((s) => s.category === cat).map((service) => {
               const isDisabled = service.available === false;
               return (
-                <div
+                <button
                   key={service.id}
+                  role="radio"
+                  aria-checked={selected === service.id}
+                  aria-disabled={isDisabled}
+                  disabled={isDisabled}
                   className={`service-card ${selected === service.id ? "selected" : ""} ${isDisabled ? "disabled" : ""}`}
-                  style={isDisabled ? { opacity: 0.5, cursor: "default",  } : { cursor: "pointer" }}
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    background: "none",
+                    border: "none",
+                    cursor: isDisabled ? "default" : "pointer",
+                    opacity: isDisabled ? 0.6 : 1,
+                  }}
                   onClick={() => {
                     if (isDisabled) return;
                     setSelected(service.id);
@@ -121,7 +132,7 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                       </button>
                     )}
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
