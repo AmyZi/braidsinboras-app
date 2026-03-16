@@ -239,7 +239,7 @@ export default function AdminDashboard() {
                     {/* Toggle Switch */}
                     <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
                       <span style={{ fontSize: "0.75rem", color: service.available !== false ? "var(--green)" : "var(--text-muted)" }}>
-                        {service.available !== false ? "Taking bookings" : "Not available"}
+                        {service.available !== false ? "Taking bookings" : "Not currently taking bookings"}
                       </span>
                       <div
                         onClick={() => !toggling && toggleService(service)}

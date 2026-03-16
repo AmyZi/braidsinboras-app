@@ -30,6 +30,7 @@
     "react-hook-form": "^7.71.1",
     "resend": "^6.9.2",
     "stripe": "^20.4.1",
+    "vercel": "^50.32.5",
     "zod": "^4.3.6"
   },
   "devDependencies": {
