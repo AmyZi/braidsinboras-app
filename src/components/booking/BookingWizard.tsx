@@ -91,7 +91,7 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                     )}
                     {isDisabled && (
                       <span className="popular-badge" style={{ background: "var(--text-muted)", color: "var(--surface)" }}>
-                        Not available
+                        Not currently taking bookings
                       </span>
                     )}
                   </div>
