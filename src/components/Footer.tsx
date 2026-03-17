@@ -6,7 +6,7 @@ import "@/styles/globals.css";
 export default function FooterLogo() {
   return (
     <div className="cta-footer">
-      BRAIDS BY AMY · BORÅS · SWEDEN
+      BRAIDS BY Ami · BORÅS · SWEDEN
       <span style={{ margin: "0 0.5rem", opacity: 0.3 }}>·</span>
       <span style={{ opacity: 0.6, fontSize: "0.7rem" }}>Built by </span>
       <motion.a

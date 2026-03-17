@@ -5,8 +5,8 @@ import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Braids by Amy | Mobile Braider in Borås",
-  description: "Professional mobile braiding in Borås. Box braids, knotless braids, cornrows & more. Book online with Amy — coming to you or at home studio in Glacialgatan.",
+  title: "Braids by Ami | Mobile Braider in Borås",
+  description: "Professional mobile braiding in Borås. Box braids, knotless braids, cornrows & more. Book online with Ami — coming to you or at home studio in Glacialgatan.",
   keywords: ["braids borås", "mobile braider borås", "box braids borås", "knotless braids borås"],
 };
 
@@ -17,7 +17,7 @@ const INFO_CARDS = [
     items: [
       "20% non-refundable deposit to secure your appointment — deducted from final amount",
       "Appointments should only be booked two days in advance to ensure availability",
-      "if its impromptu booking, please contact Amy directly to confirm availability",
+      "if its impromptu booking, please contact Ami directly to confirm availability",
       "Confirmation email sent after booking — ensure your details are correct",
       "Remaining balance paid in cash at appointment",
       "Appointments can be rescheduled once",
@@ -30,7 +30,7 @@ const INFO_CARDS = [
       "10-minute grace period — 50kr late fee for every 10 minutes after",
       "After 30 minutes your appointment may be cancelled",
       "No-shows without notice: bank charged, future bookings limited",
-      "No reschedule within 48hrs of no-show unless you notify Amy",
+      "No reschedule within 48hrs of no-show unless you notify Ami",
     ],
   },
   {
@@ -65,7 +65,7 @@ export default function HomePage() {
 
         <h1 className="hero-title">
           Braids<br />
-          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>by Amy</em>
+          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>by Ami</em>
         </h1>
 
         <p className="salon-tagline" style={{ margin: "1.5rem 0 2.5rem" }}>
@@ -122,7 +122,7 @@ export default function HomePage() {
           By booking you agree to the terms above. I can't wait to have you in my seat! 💛
         </p>
         <Link href="/booking" className="btn btn-ghost" style={{ width: "auto" }}>
-          Book with Amy →
+          Book with Ami →
         </Link>
         {/* Footer */}
        <Footer />
