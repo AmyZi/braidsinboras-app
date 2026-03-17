@@ -111,13 +111,16 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                   <div className="service-footer">
                     <span className="service-price">from {service.price} SEK</span>
                     {isDisabled ? (
-                      <button
+                      <a
+                        href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}?text=${encodeURIComponent(`Hi! I'm interested in booking ${service.title} but it shows as unavailable. Could you let me know your availability?`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="btn btn-ghost btn-sm"
-                        style={{ fontSize: "0.75rem", padding: "0.35rem 0.75rem" }}
-                        onClick={() => handleWhatsApp(service)}
+                        style={{ fontSize: "0.75rem", padding: "0.35rem 0.75rem", textDecoration: "none" }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         💬 WhatsApp us
-                      </button>
+                      </a>
                     ) : (
                       <button
                         className="btn-inline"
@@ -221,7 +224,7 @@ function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
 
       <div className="booking-notice">
         <p>📅 Appointments should only be booked two days in advance to ensure availability.</p>
-        <p>💬 For impromptu bookings, <a href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}`} style={{ color: "var(--gold)" }}>contact Ami directly</a> to confirm availability.</p>
+        <p>💬 For impromptu bookings, <a href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}`} style={{ color: "var(--gold)" }}>contact Amy directly</a> to confirm availability.</p>
       </div>
     </div>
   );
