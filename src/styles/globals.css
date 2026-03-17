@@ -850,6 +850,52 @@ h1, h2, h3 {
 .policy-text {
   font-size: 0.75rem;
 }
+/* ── Month navigation ── */
+.month-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.month-nav-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  text-transform: capitalize;
+}
+
+.btn-ghost-small {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.btn-ghost-small:hover { border-color: var(--gold); color: var(--gold); }
+.btn-ghost-small:disabled { opacity: 0.3; cursor: default; }
+
+.btn-danger {
+  background: #c0392b;
+  color: #fff;
+}
+.btn-danger:hover { background: #e74c3c; }
+
+/* ── Booking notice ── */
+.booking-notice {
+  margin-top: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
 
 /* ── Responsive ── */
 @media (max-width: 600px) {

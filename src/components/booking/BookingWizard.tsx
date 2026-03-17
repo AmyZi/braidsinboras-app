@@ -123,7 +123,6 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                         className="btn-inline"
                         style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)" }}
                         onClick={() => {
-                          if (isDisabled) return;
                           setSelected(service.id);
                           setTimeout(() => onSelect(service), 280);
                         }}
@@ -145,13 +144,23 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
 // ─── Step 2: Date Picker ──────────────────────────────────────────────────────
 function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
   const [selected, setSelected] = useState<string | null>(null);
+  const [monthOffset, setMonthOffset] = useState(0);
+
+  const today = new Date();
+  const startDate = new Date(today);
+
+  if (monthOffset === 0) {
+    startDate.setDate(today.getDate() + 1); // start from tomorrow
+  } else {
+    startDate.setMonth(today.getMonth() + monthOffset);
+    startDate.setDate(1); // start from 1st of offset month
+  }
 
   const days: { date: string; label: string; weekday: string }[] = [];
-  const today = new Date();
-  for (let i = 1; days.length < 30; i++) {
-    const d = new Date(today);
-    d.setDate(today.getDate() + i);
-    if (d.getDay() === 0) continue;
+  for (let i = 0; days.length < 30; i++) {
+    const d = new Date(startDate);
+    d.setDate(startDate.getDate() + i);
+    if (d.getDay() === 0) continue; // skip Sundays
     const iso = d.toISOString().split("T")[0];
     days.push({
       date: iso,
@@ -163,10 +172,36 @@ function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
   const rows: typeof days[] = [];
   for (let i = 0; i < days.length; i += 6) rows.push(days.slice(i, i + 6));
 
+  const monthLabel = new Date(
+    today.getFullYear(),
+    today.getMonth() + monthOffset,
+    1
+  ).toLocaleString("en-SE", { month: "long", year: "numeric" });
+
   return (
     <div className="step-content">
       <h2 className="step-title">Pick a date</h2>
       <p className="step-subtitle">Open Monday – Saturday, 09:00 – 18:00.</p>
+
+      <div className="month-nav">
+        <button
+          className="btn-ghost-small"
+          onClick={() => { setMonthOffset((o) => Math.max(0, o - 1)); setSelected(null); }}
+          disabled={monthOffset === 0}
+          aria-label="Previous month"
+        >
+          ← Prev
+        </button>
+        <span className="month-nav-label">{monthLabel}</span>
+        <button
+          className="btn-ghost-small"
+          onClick={() => { setMonthOffset((o) => o + 1); setSelected(null); }}
+          aria-label="Next month"
+        >
+          Next →
+        </button>
+      </div>
+
       <div className="calendar-wrapper">
         {rows.map((row, ri) => (
           <div key={ri} className="calendar-row">
@@ -182,6 +217,11 @@ function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
             ))}
           </div>
         ))}
+      </div>
+
+      <div className="booking-notice">
+        <p>📅 Appointments should only be booked two days in advance to ensure availability.</p>
+        <p>💬 For impromptu bookings, <a href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}`} style={{ color: "var(--gold)" }}>contact Amy directly</a> to confirm availability.</p>
       </div>
     </div>
   );

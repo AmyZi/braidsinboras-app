@@ -16,7 +16,8 @@ const INFO_CARDS = [
     icon: "✦",
     items: [
       "20% non-refundable deposit to secure your appointment — deducted from final amount",
-      "Appointments released on the 15th of every month",
+      "Appointments should only be booked two days in advance to ensure availability",
+      "if its impromptu booking, please contact Amy directly to confirm availability",
       "Confirmation email sent after booking — ensure your details are correct",
       "Remaining balance paid in cash at appointment",
       "Appointments can be rescheduled once",
