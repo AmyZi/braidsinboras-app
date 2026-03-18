@@ -72,7 +72,7 @@ export async function sendBookingConfirmation(booking: {
 
         <p style="margin-top:2rem;">See you soon!<br/><strong>BraidsInBorås</strong></p>
         <hr style="border:none;border-top:1px solid #eee;margin:2rem 0;"/>
-        <p style="font-size:0.75rem;color:#aaa;">braidsinboras.se · Borås, Sweden</p>
+        <p style="font-size:0.75rem;color:#aaa;">braidsboras.se · Borås, Sweden</p>
       </div>
     `,
   });

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://braidsinboras.se"),
+  metadataBase: new URL("https://braidsboras.se"),
   title: {
     default: "BraidsInBorås – Professional Braiding in Borås",
     template: "%s | BraidsInBorås",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "sv_SE",
-    url: "https://braidsinboras.se",
+    url: "https://braidsboras.se",
     siteName: "BraidsInBorås",
   },
 };

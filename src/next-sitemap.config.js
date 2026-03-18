@@ -1,6 +1,6 @@
 // next-sitemap.config.js
 module.exports = {
-  siteUrl: "https://braidsinboras.se",
+  siteUrl: "https://braidsboras.se",
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   changefreq: "weekly",
@@ -16,7 +16,7 @@ module.exports = {
     }));
   },
   robotsTxtOptions: {
-    additionalSitemaps: ["https://braidsinboras.se/sitemap.xml"],
+    additionalSitemaps: ["https://braidsboras.se/sitemap.xml"],
     policies: [{ userAgent: "*", allow: "/" }],
   },
 };

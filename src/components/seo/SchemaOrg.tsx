@@ -3,8 +3,8 @@ export function LocalBusinessSchema() {
     "@context": "https://schema.org",
     "@type": "HairSalon",
     name: "BraidsInBorås",
-    image: "https://braidsinboras.se/images/salon.jpg",
-    url: "https://braidsinboras.se",
+    image: "https://braidsboras.se/images/salon.jpg",
+    url: "https://braidsboras.se",
     telephone: "+46XXXXXXXXX",
     address: {
       "@type": "PostalAddress",
