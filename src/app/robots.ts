@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin/", "/api/"],
+      disallow: ["/admin/", "/api/admin/", "/api/auth/", "/api/stripe/"],
     },
     sitemap: "https://braidsboras.se/sitemap.xml",
   };
