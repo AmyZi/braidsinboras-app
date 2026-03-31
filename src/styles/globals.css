@@ -662,6 +662,33 @@ h1, h2, h3 {
   gap: 0.5rem;
   align-items: flex-end;
 }
+/* ── Size selector ── */
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.size-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.size-card:hover { border-color: var(--gold); }
+.size-card.selected { border-color: var(--gold); background: rgba(201,169,110,0.08); }
+
+.size-label { font-size: 1rem; font-weight: 600; color: var(--text); }
+.size-price { font-size: 0.95rem; color: var(--gold); font-weight: 500; }
+.size-hours { font-size: 0.75rem; color: var(--text-muted); }
 
 .cal-link {
   font-size: 0.75rem;
@@ -1042,7 +1069,7 @@ h1, h2, h3 {
   .card { padding: 1.25rem; }
   .calendar-row { grid-template-columns: repeat(3, 1fr); }
 }
-/* ── High-conversion Home sections ── */
+/* ──  Home sections ── */
 .hero-convert {
   min-height: auto;
   padding: 6rem 1.5rem 3rem;

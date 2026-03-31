@@ -4,6 +4,13 @@ import { useState, useEffect } from "react";
 import "@/styles/globals.css";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
+type SizeVariant = {
+  label: string;
+  price: number;
+  hours_min: number;
+  hours_max: number;
+};
+
 type Service = {
   id: string;
   slug: string;
@@ -13,18 +20,27 @@ type Service = {
   isPopular: boolean;
   descriptionSv: string;
   available: boolean;
+  sizeVariants?: string; // JSON string
+  hoursNote?: string;
 };
 
 type Slot = { start: string; label: string };
 
 type BookingState = {
   service: Service | null;
+  size: SizeVariant | null;
   date: string;
   slot: Slot | null;
 };
 
-const STEPS = ["Service", "Date", "Time", "Your details"];
+const STEPS = ["Service", "Size", "Date", "Time", "Your details"];
 const WHATSAPP_NUMBER = "+46737350019";
+
+function parseVariants(json?: string): SizeVariant[] {
+  if (!json) return [];
+  try { return JSON.parse(json) || []; }
+  catch { return []; }
+}
 
 // ─── Loader ───────────────────────────────────────────────────────────────────
 function Loader({ text }: { text: string }) {
@@ -55,25 +71,21 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
 
   const categories = [...new Set(services.map((s) => s.category))];
 
-  const handleWhatsApp = (service: Service) => {
-    const msg = encodeURIComponent(
-      `Hi! I'm interested in booking ${service.title} but it shows as unavailable. Could you let me know your ideal time slots?`
-    );
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
-  };
-
   return (
     <div className="step-content">
       <h2 className="step-title">Choose a service</h2>
-      <p className="step-subtitle">
-        Price varies based on hair length and density — confirmed by stylist on arrival.
-      </p>
+      <p className="step-subtitle">Select a style to see size options and pricing.</p>
       {categories.map((cat) => (
         <div key={cat} className="category-group">
           <span className="section-label">{cat}</span>
           <div className="services-grid">
             {services.filter((s) => s.category === cat).map((service) => {
               const isDisabled = service.available === false;
+              const variants = parseVariants(service.sizeVariants);
+              const minPrice = variants.length > 0
+                ? Math.min(...variants.map(v => v.price))
+                : service.price;
+
               return (
                 <button
                   key={service.id}
@@ -97,9 +109,7 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                   }}
                 >
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.25rem" }}>
-                    {service.isPopular && !isDisabled && (
-                      <span className="popular-badge">Popular</span>
-                    )}
+                    {service.isPopular && !isDisabled && <span className="popular-badge">Popular</span>}
                     {isDisabled && (
                       <span className="popular-badge" style={{ background: "var(--text-muted)", color: "var(--surface)" }}>
                         Not currently taking bookings
@@ -107,9 +117,18 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                     )}
                   </div>
                   <h3 className="service-name">{service.title}</h3>
-                  <p className="service-desc">{service.descriptionSv}</p>
+
+                  {/* Size preview — show labels if variants exist */}
+                  {variants.length > 0 ? (
+                    <p className="service-desc">
+                      {variants.map(v => v.label).join(" · ")}
+                    </p>
+                  ) : (
+                    <p className="service-desc">{service.descriptionSv}</p>
+                  )}
+
                   <div className="service-footer">
-                    <span className="service-price">from {service.price} SEK</span>
+                    <span className="service-price">from {minPrice} SEK</span>
                     {isDisabled ? (
                       <a
                         href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}?text=${encodeURIComponent(`Hi! I'm interested in booking ${service.title} but it shows as unavailable. Could you let me know your availability?`)}`}
@@ -144,7 +163,52 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
   );
 }
 
-// ─── Step 2: Date Picker ──────────────────────────────────────────────────────
+// ─── Step 2: Size Selector ────────────────────────────────────────────────────
+function SizeSelector({ service, onSelect, onSkip }: {
+  service: Service;
+  onSelect: (size: SizeVariant) => void;
+  onSkip: () => void;
+}) {
+  const variants = parseVariants(service.sizeVariants);
+  const [selected, setSelected] = useState<string | null>(null);
+
+  // No variants — skip this step automatically
+  useEffect(() => {
+    if (variants.length === 0) onSkip();
+  }, []);
+
+  if (variants.length === 0) return <Loader text="Loading..." />;
+
+  return (
+    <div className="step-content">
+      <h2 className="step-title">Choose a size</h2>
+      <p className="step-subtitle">{service.title}</p>
+      {service.hoursNote && (
+        <div className="booking-notice" style={{ marginBottom: "1.25rem" }}>
+          <p>⏱ {service.hoursNote}</p>
+        </div>
+      )}
+      <div className="size-grid">
+        {variants.map((v) => (
+          <button
+            key={v.label}
+            className={`size-card ${selected === v.label ? "selected" : ""}`}
+            onClick={() => {
+              setSelected(v.label);
+              setTimeout(() => onSelect(v), 280);
+            }}
+          >
+            <span className="size-label">{v.label}</span>
+            <span className="size-price">{v.price} SEK</span>
+            <span className="size-hours">{v.hours_min}–{v.hours_max} hrs</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Step 3: Date Picker ──────────────────────────────────────────────────────
 function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [monthOffset, setMonthOffset] = useState(0);
@@ -153,17 +217,17 @@ function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
   const startDate = new Date(today);
 
   if (monthOffset === 0) {
-    startDate.setDate(today.getDate() + 1); // start from tomorrow
+    startDate.setDate(today.getDate() + 1);
   } else {
     startDate.setMonth(today.getMonth() + monthOffset);
-    startDate.setDate(1); // start from 1st of offset month
+    startDate.setDate(1);
   }
 
   const days: { date: string; label: string; weekday: string }[] = [];
   for (let i = 0; days.length < 30; i++) {
     const d = new Date(startDate);
     d.setDate(startDate.getDate() + i);
-    if (d.getDay() === 0) continue; // skip Sundays
+    if (d.getDay() === 0) continue;
     const iso = d.toISOString().split("T")[0];
     days.push({
       date: iso,
@@ -185,35 +249,16 @@ function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
     <div className="step-content">
       <h2 className="step-title">Pick a date</h2>
       <p className="step-subtitle">Open Monday – Saturday, 09:00 – 18:00.</p>
-
       <div className="month-nav">
-        <button
-          className="btn-ghost-small"
-          onClick={() => { setMonthOffset((o) => Math.max(0, o - 1)); setSelected(null); }}
-          disabled={monthOffset === 0}
-          aria-label="Previous month"
-        >
-          ← Prev
-        </button>
+        <button className="btn-ghost-small" onClick={() => { setMonthOffset((o) => Math.max(0, o - 1)); setSelected(null); }} disabled={monthOffset === 0} aria-label="Previous month">← Prev</button>
         <span className="month-nav-label">{monthLabel}</span>
-        <button
-          className="btn-ghost-small"
-          onClick={() => { setMonthOffset((o) => o + 1); setSelected(null); }}
-          aria-label="Next month"
-        >
-          Next →
-        </button>
+        <button className="btn-ghost-small" onClick={() => { setMonthOffset((o) => o + 1); setSelected(null); }} aria-label="Next month">Next →</button>
       </div>
-
       <div className="calendar-wrapper">
         {rows.map((row, ri) => (
           <div key={ri} className="calendar-row">
             {row.map(({ date, label, weekday }) => (
-              <button
-                key={date}
-                className={`day-btn ${selected === date ? "selected" : ""}`}
-                onClick={() => { setSelected(date); setTimeout(() => onSelect(date), 280); }}
-              >
+              <button key={date} className={`day-btn ${selected === date ? "selected" : ""}`} onClick={() => { setSelected(date); setTimeout(() => onSelect(date), 280); }}>
                 <span className="day-weekday">{weekday}</span>
                 <span className="day-label">{label}</span>
               </button>
@@ -221,7 +266,6 @@ function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
           </div>
         ))}
       </div>
-
       <div className="booking-notice">
         <p>📅 Appointments should only be booked two days in advance to ensure availability.</p>
         <p>💬 For impromptu bookings, <a href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}`} style={{ color: "var(--gold)" }}>contact Amy directly</a> to confirm availability.</p>
@@ -230,7 +274,7 @@ function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
   );
 }
 
-// ─── Step 3: Time Slot Picker ─────────────────────────────────────────────────
+// ─── Step 4: Time Slot Picker ─────────────────────────────────────────────────
 function TimeSlotPicker({ date, onSelect }: { date: string; onSelect: (slot: Slot) => void }) {
   const [slots, setSlots] = useState<Slot[]>([]);
   const [loading, setLoading] = useState(true);
@@ -264,11 +308,7 @@ function TimeSlotPicker({ date, onSelect }: { date: string; onSelect: (slot: Slo
       ) : (
         <div className="slots-grid">
           {slots.map((slot) => (
-            <button
-              key={slot.start}
-              className={`slot-btn ${selected === slot.start ? "selected" : ""}`}
-              onClick={() => { setSelected(slot.start); setTimeout(() => onSelect(slot), 280); }}
-            >
+            <button key={slot.start} className={`slot-btn ${selected === slot.start ? "selected" : ""}`} onClick={() => { setSelected(slot.start); setTimeout(() => onSelect(slot), 280); }}>
               {slot.label}
             </button>
           ))}
@@ -278,7 +318,7 @@ function TimeSlotPicker({ date, onSelect }: { date: string; onSelect: (slot: Slo
   );
 }
 
-// ─── Step 4: Customer Form ────────────────────────────────────────────────────
+// ─── Step 5: Customer Form ────────────────────────────────────────────────────
 function CustomerForm({ booking, onSuccess }: { booking: BookingState; onSuccess: () => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -287,7 +327,8 @@ function CustomerForm({ booking, onSuccess }: { booking: BookingState; onSuccess
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const depositAmount = Math.round((booking.service?.price || 0) * 0.2);
+  const price = booking.size?.price || booking.service?.price || 0;
+  const depositAmount = Math.round(price * 0.2);
 
   const formattedDate = new Date(booking.date + "T12:00:00").toLocaleDateString("en-SE", {
     weekday: "long", day: "numeric", month: "long",
@@ -303,8 +344,10 @@ function CustomerForm({ booking, onSuccess }: { booking: BookingState; onSuccess
         body: JSON.stringify({
           customerName: name.trim(),
           customerEmail: email.trim(),
-          service: booking.service?.title,
-          servicePrice: booking.service?.price,
+          service: booking.size
+            ? `${booking.service?.title} (${booking.size.label})`
+            : booking.service?.title,
+          servicePrice: price,
           startTime: booking.slot?.start,
           notes: [phone ? `Phone: ${phone}` : "", notes].filter(Boolean).join(". "),
         }),
@@ -326,15 +369,14 @@ function CustomerForm({ booking, onSuccess }: { booking: BookingState; onSuccess
     <div className="step-content">
       <h2 className="step-title">Your details</h2>
       <p className="step-subtitle">You will pay a 20% deposit to confirm your booking.</p>
-
       <div className="booking-summary">
         <div className="summary-row"><span>Service</span><strong>{booking.service?.title}</strong></div>
+        {booking.size && <div className="summary-row"><span>Size</span><strong>{booking.size.label} — {booking.size.hours_min}–{booking.size.hours_max} hrs</strong></div>}
         <div className="summary-row"><span>Date</span><strong>{formattedDate}</strong></div>
         <div className="summary-row"><span>Start time</span><strong>{booking.slot?.label}</strong></div>
-        <div className="summary-row"><span>Full price (from)</span><strong>{booking.service?.price} SEK</strong></div>
+        <div className="summary-row"><span>Full price</span><strong>{price} SEK</strong></div>
         <div className="summary-row"><span>Deposit due now (20%)</span><strong style={{ color: "var(--gold)" }}>{depositAmount} SEK</strong></div>
       </div>
-
       <div className="form-fields">
         <div className="field">
           <label>Full name *</label>
@@ -350,17 +392,10 @@ function CustomerForm({ booking, onSuccess }: { booking: BookingState; onSuccess
         </div>
         <div className="field">
           <label>Notes for your stylist</label>
-          <textarea
-            placeholder="e.g. shoulder-length hair, high density, preferred style..."
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            rows={3}
-          />
+          <textarea placeholder="e.g. shoulder-length hair, high density, preferred style..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
         </div>
       </div>
-
       {error && <div className="alert alert-error">{error}</div>}
-
       <button className="btn btn-primary" onClick={submit} disabled={loading}>
         {loading ? "Preparing payment..." : `Pay ${depositAmount} SEK deposit & confirm →`}
       </button>
@@ -371,7 +406,7 @@ function CustomerForm({ booking, onSuccess }: { booking: BookingState; onSuccess
 // ─── Main Wizard ──────────────────────────────────────────────────────────────
 export default function BookingWizard() {
   const [step, setStep] = useState(0);
-  const [booking, setBooking] = useState<BookingState>({ service: null, date: "", slot: null });
+  const [booking, setBooking] = useState<BookingState>({ service: null, size: null, date: "", slot: null });
   const update = (data: Partial<BookingState>) => setBooking((b) => ({ ...b, ...data }));
 
   return (
@@ -380,7 +415,6 @@ export default function BookingWizard() {
         <div className="salon-name">BraidsInBorås</div>
         <div className="salon-tagline">Professional braiding · Borås</div>
       </header>
-
       <div className="progress-bar">
         {STEPS.map((_, i) => <div key={i} className={`progress-seg ${i <= step ? "active" : ""}`} />)}
       </div>
@@ -389,18 +423,22 @@ export default function BookingWizard() {
           <div key={label} className={`progress-lbl ${i === step ? "active" : ""}`}>{label}</div>
         ))}
       </div>
-
       <div className="card">
         {step > 0 && (
           <button className="back-btn" onClick={() => setStep((s) => s - 1)}>← Back</button>
         )}
-
         {step === 0 ? (
-          <ServiceSelector onSelect={(service) => { update({ service }); setStep(1); }} />
+          <ServiceSelector onSelect={(service) => { update({ service, size: null }); setStep(1); }} />
         ) : step === 1 ? (
-          <DatePicker onSelect={(date) => { update({ date }); setStep(2); }} />
+          <SizeSelector
+            service={booking.service!}
+            onSelect={(size) => { update({ size }); setStep(2); }}
+            onSkip={() => setStep(2)}
+          />
         ) : step === 2 ? (
-          <TimeSlotPicker date={booking.date} onSelect={(slot) => { update({ slot }); setStep(3); }} />
+          <DatePicker onSelect={(date) => { update({ date }); setStep(3); }} />
+        ) : step === 3 ? (
+          <TimeSlotPicker date={booking.date} onSelect={(slot) => { update({ slot }); setStep(4); }} />
         ) : (
           <CustomerForm booking={booking} onSuccess={() => {}} />
         )}
