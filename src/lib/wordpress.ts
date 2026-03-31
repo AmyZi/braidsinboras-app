@@ -10,10 +10,6 @@ export type Service = {
   id: string;
   slug: string;
   title: string;
-  excerpt: string;
-  price: number;
-  category: string;
-  isPopular: boolean;
   sizeVariants: string;
   hoursNote: string;
   available: boolean;
@@ -29,10 +25,6 @@ const GET_SERVICES = `
         id
         slug
         title
-        excerpt
-        price
-        category
-        isPopular
         sizeVariants
         hoursNote
         available
