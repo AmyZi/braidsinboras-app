@@ -17,6 +17,7 @@ type Service = {
   title: string;
   price: number;
   category: string;
+  isPopular: boolean;
   available: boolean;
   sizeVariants?: string; // JSON string
   hoursNote?: string;
