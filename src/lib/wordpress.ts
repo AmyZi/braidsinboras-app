@@ -14,7 +14,8 @@ export type Service = {
   price: number;
   category: string;
   isPopular: boolean;
-  descriptionSv: string;
+  sizeVariants: string;
+  hoursNote: string;
   available: boolean;
   featuredImage?: {
     node: { sourceUrl: string; altText: string };
@@ -32,7 +33,8 @@ const GET_SERVICES = `
         price
         category
         isPopular
-        descriptionSv
+        sizeVariants
+        hoursNote
         available
         featuredImage {
           node {
