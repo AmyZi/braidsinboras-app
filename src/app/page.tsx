@@ -19,6 +19,21 @@ export const metadata: Metadata = {
     "afro hair borås",
     "afro frisör borås",
   ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Braids in Borås | Prices, Styles & Online Booking with Ami",
+    description:
+      "Compare braid styles and starting prices, then secure your appointment online with a 20% deposit.",
+    url: "https://braidsboras.se",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Braids in Borås | Prices, Styles & Online Booking with Ami",
+    description:
+      "Book box braids, knotless, cornrows and more in Borås with fast online scheduling.",
+  },
 };
 const CONTACT = {
   email: "Ebiojoidris@gmail.com",
@@ -97,11 +112,11 @@ export default async function HomePage() {
     "@context": "https://schema.org",
     "@type": "HairSalon",
     name: "Braids by Amy",
-    url: "https://braidsinboras.se",
+    url: "https://braidsboras.se",
     telephone: "+46737350015",
     email: CONTACT.email,
     areaServed: "Borås",
-    priceRange: "$$",
+    priceRange: "SEK",
   };
 
   return (

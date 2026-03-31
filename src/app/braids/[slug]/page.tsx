@@ -13,13 +13,21 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const title = `${slug.replace(/-/g, " ")} in Borås`;
-  const desc = `Book professional ${title}. Expert braiding service with online scheduling.`;
+  const readable = slug.replace(/-/g, " ");
+  const title = `${readable} in Borås | Price & Online Booking`;
+  const desc = `Book ${readable} in Borås. See style details and reserve your appointment online with a secure deposit.`;
   return {
     title,
     description: desc,
-    openGraph: { title, description: desc }
+    alternates: {
+      canonical: `/braids/${slug}`,
+    },
+    openGraph: { title, description: desc, url: `https://braidsboras.se/braids/${slug}` },
+    twitter: {
+      card: "summary",
+      title,
+      description: desc,
+    },
   };
 }
 

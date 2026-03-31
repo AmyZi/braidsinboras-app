@@ -4,12 +4,15 @@ import "@/styles/globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://braidsboras.se"),
   title: {
-    default: "BraidsInBorås – Professional Braiding in Borås",
+    default: "Braids in Borås | Book Afro Hair Stylist Online",
     template: "%s | BraidsInBorås",
   },
   description:
-    "Book professional hair braiding in Borås. Box braids, knotless braids, cornrows & more. Easy online booking.",
+    "Book professional braids in Borås with clear prices, secure deposit, and fast online booking. Box braids, knotless braids, cornrows, and more.",
   keywords: ["braids borås", "box braids borås", "hair braiding borås", "knotless braids borås"],
+    alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "sv_SE",
