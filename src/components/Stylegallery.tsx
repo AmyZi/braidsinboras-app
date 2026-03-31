@@ -64,11 +64,6 @@ export default function StyleGallery() {
 
   return (
     <section className="gallery-section">
-      <div className="gallery-eyebrow">Featured styles</div>
-      <h2 className="gallery-heading">
-        Braid styles in <em>Borås</em>
-      </h2>
-
       <div
         className={`gallery-card ${animating ? "gallery-card-exit" : "gallery-card-enter"}`}
         style={{ background: style.gradient }}

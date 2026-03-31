@@ -3,12 +3,12 @@ import { getServices } from "@/lib/api";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import StyleGallery from "@/components/Stylegallery";
+import StyleGallery from "@/components/Stylegallery"; 
 
 export const metadata: Metadata = {
-  title: "Braids by Amy | Braids & Mobile Hair Styling in Borås",
+  title: "Braids & Afro Hair Stylist in Borås | Book Online with Ami",
   description:
-    "Book braids in Borås with Amy. Mobile appointments and home-studio visits in Trandared/Glacialgatan area. Box braids, knotless, cornrows and protective styling.",
+    "Need a braids or afro hair stylist in Borås? Book online in minutes with Braids by Ami. Box braids, knotless and cornrows with mobile or studio appointments.",
   keywords: [
     "braids borås",
     "frisör borås",
@@ -74,17 +74,44 @@ const HOW_IT_WORKS = [
   "Pay 20% deposit securely",
   "Get confirmation and appointment details",
 ];
+const QUICK_SEARCH_LINKS = [
+  { label: "frisör borås (braids)", href: "/booking" },
+  { label: "afro hair borås", href: "/booking" },
+  { label: "hårstyling borås", href: "/booking" },
+  { label: "braids trandared", href: "/booking" },
+];
 
 export default async function HomePage() {
-  const services = await getServices();
+    const services = await getServices();
   const featuredServices = services.slice(0, 6);
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: { "@type": "Answer", text: faq.a },
+    })),
+  };
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HairSalon",
+    name: "Braids by Amy",
+    url: "https://braidsinboras.se",
+    telephone: "+46737350015",
+    email: CONTACT.email,
+    areaServed: "Borås",
+    priceRange: "$$",
+  };
 
   return (
     <main className="page-shell" style={{ padding: 0, alignItems: "stretch" }}>
-      {/* ── Hero section ── */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
+
       <section className="hero-section hero-convert">
         <p className="hero-eyebrow">Top-rated braid stylist in Borås</p>
-
+        
         <h1 className="hero-title">
           Braids in Borås<br />
           <em style={{ color: "var(--gold)", fontStyle: "italic" }}>by Ami</em>
@@ -115,37 +142,15 @@ export default async function HomePage() {
         ))}
       </section>
 
-      {/* ── Style Gallery ── */}
-      <StyleGallery />
- 
-      {/* ── Featured services ── */}
+      {/* ── Style Gallery & Featured services── */}
       <section className="home-section">
         <div className="home-section-header">
           <h2 className="step-title">Most-booked braid services</h2>
           <p className="step-subtitle">
             Popular styles local clients search for in Borås. Select a service to view details, then continue to instant booking.
           </p>
+            <StyleGallery />
         </div>
-
-        {featuredServices.length === 0 ? (
-          <div className="card" style={{ maxWidth: "var(--admin-width)" }}>
-            <p className="step-subtitle" style={{ marginTop: 0 }}>
-              Services are being updated right now. You can still continue directly to booking and see live availability.
-            </p>
-            <Link href="/booking" className="btn btn-primary" style={{ marginTop: "1rem" }}>
-              Go to booking
-            </Link>
-          </div>
-        ) : (
-          <div className="home-services-grid">
-            {featuredServices.map((service) => (
-              <Link key={service.slug} href={`/services/${service.slug}`} className="home-service-card">
-                <h3>{service.title}</h3>
-                <span>View style details →</span>
-              </Link>
-            ))}
-          </div>
-        )}
       </section>
 
       {/* ── How it works + Why Amy ── */}
