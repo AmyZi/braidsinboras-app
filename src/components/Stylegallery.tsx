@@ -25,7 +25,7 @@ const STYLES = [
     slug: "coi-leray-braids",
     color: "#c9a96e",
     gradient: "linear-gradient(135deg, #161210 0%, #2a1a18 100%)",
-    description: "The signature simply and bold braids.",
+    description: "The signature simple and bold braids.",
     image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/coiLeray.jpeg",
   },
   {
