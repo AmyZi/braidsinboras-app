@@ -3,6 +3,7 @@ import { getServices } from "@/lib/api";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import StyleGallery from "@/components/Stylegallery";
 
 export const metadata: Metadata = {
   title: "Braids by Amy | Braids & Mobile Hair Styling in Borås",
@@ -80,6 +81,7 @@ export default async function HomePage() {
 
   return (
     <main className="page-shell" style={{ padding: 0, alignItems: "stretch" }}>
+      {/* ── Hero section ── */}
       <section className="hero-section hero-convert">
         <p className="hero-eyebrow">Top-rated braid stylist in Borås</p>
 
@@ -106,12 +108,17 @@ export default async function HomePage() {
         </p>
       </section>
 
+      {/* ── Trust strip ── */}
       <section className="trust-strip">
         {TRUST_POINTS.map((point) => (
           <p key={point}>{point}</p>
         ))}
       </section>
 
+      {/* ── Style Gallery ── */}
+      <StyleGallery />
+ 
+      {/* ── Featured services ── */}
       <section className="home-section">
         <div className="home-section-header">
           <h2 className="step-title">Most-booked braid services</h2>
@@ -141,7 +148,7 @@ export default async function HomePage() {
         )}
       </section>
 
-
+      {/* ── How it works + Why Amy ── */}
       <section className="home-section">
         <div className="home-two-col">
           <div className="card">
@@ -170,6 +177,7 @@ export default async function HomePage() {
       </div>
       </section>
 
+      {/* ── FAQs ── */}
       <section className="home-section">
         <div className="card" style={{ maxWidth: "var(--admin-width)" }}>
           <h2 className="step-title">Frequently asked questions</h2>
