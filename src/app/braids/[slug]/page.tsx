@@ -13,6 +13,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params; 
+  
   const readable = slug.replace(/-/g, " ");
   const title = `${readable} in Borås | Price & Online Booking`;
   const desc = `Book ${readable} in Borås. See style details and reserve your appointment online with a secure deposit.`;
