@@ -162,7 +162,7 @@ export default async function HomePage() {
         <div className="home-section-header">
           <h2 className="step-title">Most-booked braid services</h2>
           <p className="step-subtitle">
-            Popular styles local clients search for in Borås. Select a service to view details, then continue to instant booking.
+            Popular braidstyles local clients search for in Borås. Select a service to view details, then continue to instant booking.
           </p>
             <StyleGallery />
         </div>
