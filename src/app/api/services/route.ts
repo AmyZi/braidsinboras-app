@@ -22,9 +22,8 @@ export async function GET() {
       slug: s.slug,
       title: s.title.rendered,
       price: s.meta?.price || 0,
-      category: s.meta?.category || "",
-      isPopular: s.meta?.is_popular || false,
-      descriptionSv: s.meta?.description_sv || "",
+      sizeVariants: s.meta?.size_variants || "[]",
+      hoursNote: s.meta?.hours_note || "",
       available: s.meta?.available !== false, // default true unless explicitly false
     }));
 

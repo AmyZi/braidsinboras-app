@@ -16,11 +16,8 @@ type Service = {
   slug: string;
   title: string;
   price: number;
-  category: string;
-  isPopular: boolean;
-  descriptionSv: string;
   available: boolean;
-  sizeVariants?: string; // JSON string
+  sizeVariants?: string;
   hoursNote?: string;
 };
 
@@ -69,20 +66,15 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
   if (loading) return <Loader text="Loading services..." />;
   if (error) return <div className="alert alert-error">{error}</div>;
 
-  const categories = [...new Set(services.map((s) => s.category))];
-
   return (
     <div className="step-content">
       <h2 className="step-title">Choose a service</h2>
       <p className="step-subtitle">Select a style to see size options and pricing.</p>
-      {categories.map((cat) => (
-        <div key={cat} className="category-group">
-          <span className="section-label">{cat}</span>
-          <div className="services-grid">
-            {services.filter((s) => s.category === cat).map((service) => {
-              const isDisabled = service.available === false;
-              const variants = parseVariants(service.sizeVariants);
-              const minPrice = variants.length > 0
+      <div className="services-grid">
+          {services.map((service) => {
+            const isDisabled = service.available === false;
+            const variants = parseVariants(service.sizeVariants);
+            const minPrice = variants.length > 0
                 ? Math.min(...variants.map(v => v.price))
                 : service.price;
 
@@ -109,7 +101,6 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                   }}
                 >
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.25rem" }}>
-                    {service.isPopular && !isDisabled && <span className="popular-badge">Popular</span>}
                     {isDisabled && (
                       <span className="popular-badge" style={{ background: "var(--text-muted)", color: "var(--surface)" }}>
                         Not currently taking bookings
@@ -119,12 +110,10 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                   <h3 className="service-name">{service.title}</h3>
 
                   {/* Size preview — show labels if variants exist */}
-                  {variants.length > 0 ? (
+                  {variants.length > 0 && (
                     <p className="service-desc">
                       {variants.map(v => v.label).join(" · ")}
                     </p>
-                  ) : (
-                    <p className="service-desc">{service.descriptionSv}</p>
                   )}
 
                   <div className="service-footer">
@@ -157,8 +146,7 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
               );
             })}
           </div>
-        </div>
-      ))}
+      )
     </div>
   );
 }
@@ -175,7 +163,7 @@ function SizeSelector({ service, onSelect, onSkip }: {
   // No variants — skip this step automatically
   useEffect(() => {
     if (variants.length === 0) onSkip();
-  }, []);
+  }, [onSkip, variants.length]);
 
   if (variants.length === 0) return <Loader text="Loading..." />;
 
