@@ -396,13 +396,39 @@ export default function BookingWizard() {
   const [step, setStep] = useState(0);
   const [booking, setBooking] = useState<BookingState>({ service: null, size: null, date: "", slot: null });
   const update = (data: Partial<BookingState>) => setBooking((b) => ({ ...b, ...data }));
-
+   const totalSteps = STEPS.length;
+  const formattedSelectedDate = booking.date
+    ? new Date(booking.date + "T12:00:00").toLocaleDateString("en-SE", {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+      })
+    : null;
+  const canRestart = booking.service || booking.size || booking.date || booking.slot;
   return (
     <div className="page-shell">
       <header className="salon-header">
         <div className="salon-name">BraidsInBorås</div>
         <div className="salon-tagline">Professional braiding · Borås</div>
       </header>
+      <div className="booking-notice" style={{ marginBottom: "0.75rem" }}>
+        <p>
+          Step {step + 1} of {totalSteps}: <strong>{STEPS[step]}</strong>
+        </p>
+        {canRestart ? (
+          <button
+            className="btn-inline"
+            style={{ background: "none", border: "none", padding: 0, marginTop: "0.25rem" }}
+            onClick={() => {
+              setBooking({ service: null, size: null, date: "", slot: null });
+              setStep(0);
+            }}
+          >
+            Start over
+          </button>
+        ) : null}
+      </div>
+
       <div className="progress-bar">
         {STEPS.map((_, i) => <div key={i} className={`progress-seg ${i <= step ? "active" : ""}`} />)}
       </div>
@@ -412,6 +438,34 @@ export default function BookingWizard() {
         ))}
       </div>
       <div className="card">
+        {(booking.service || booking.size || booking.date || booking.slot) && (
+          <div className="booking-summary" style={{ marginBottom: "1rem" }}>
+            {booking.service && (
+              <div className="summary-row">
+                <span>Service</span>
+                <strong>{booking.service.title}</strong>
+              </div>
+            )}
+            {booking.size && (
+              <div className="summary-row">
+                <span>Size</span>
+                <strong>{booking.size.label}</strong>
+              </div>
+            )}
+            {formattedSelectedDate && (
+              <div className="summary-row">
+                <span>Date</span>
+                <strong>{formattedSelectedDate}</strong>
+              </div>
+            )}
+            {booking.slot?.label && (
+              <div className="summary-row">
+                <span>Time</span>
+                <strong>{booking.slot.label}</strong>
+              </div>
+            )}
+          </div>
+        )}
         {step > 0 && (
           <button className="back-btn" onClick={() => setStep((s) => s - 1)}>← Back</button>
         )}
