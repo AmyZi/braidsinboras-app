@@ -255,7 +255,7 @@ function DatePicker({ onSelect }: { onSelect: (date: string) => void }) {
       </div>
       <div className="booking-notice">
         <p>📅 Appointments should only be booked two days in advance to ensure availability.</p>
-        <p>💬 For impromptu bookings, <a href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}`} style={{ color: "var(--gold)" }}>contact Amy directly</a> to confirm availability.</p>
+        <p>💬 For impromptu bookings, <a href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}`} style={{ color: "var(--gold)" }}>contact Ami directly</a> to confirm availability.</p>
       </div>
     </div>
   );

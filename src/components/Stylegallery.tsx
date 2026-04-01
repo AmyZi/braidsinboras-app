@@ -72,7 +72,7 @@ export default function StyleGallery() {
         <div className="gallery-visual">
           <img
             src={style.image}
-            alt={`${style.name} in Borås by Amy`}
+            alt={`${style.name} in Borås by Ami`}
             className="gallery-img"
           />
           <div className="gallery-img-overlay" style={{ background: style.gradient }} />
