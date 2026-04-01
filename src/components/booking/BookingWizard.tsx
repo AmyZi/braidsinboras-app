@@ -71,82 +71,81 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
       <h2 className="step-title">Choose a service</h2>
       <p className="step-subtitle">Select a style to see size options and pricing.</p>
       <div className="services-grid">
-          {services.map((service) => {
-            const isDisabled = service.available === false;
-            const variants = parseVariants(service.sizeVariants);
-            const minPrice = variants.length > 0
-                ? Math.min(...variants.map(v => v.price))
-                : service.price;
+        {services.map((service) => {
+          const isDisabled = service.available === false;
+          const variants = parseVariants(service.sizeVariants);
+          const minPrice = variants.length > 0
+              ? Math.min(...variants.map(v => v.price))
+              : service.price;
 
-              return (
-                <button
-                  key={service.id}
-                  role="radio"
-                  aria-checked={selected === service.id}
-                  aria-disabled={isDisabled}
-                  disabled={isDisabled}
-                  className={`service-card ${selected === service.id ? "selected" : ""} ${isDisabled ? "disabled" : ""}`}
-                  style={{
-                    width: "100%",
-                    textAlign: "left",
-                    background: "none",
-                    border: "none",
-                    cursor: isDisabled ? "default" : "pointer",
-                    opacity: isDisabled ? 0.6 : 1,
-                  }}
-                  onClick={() => {
-                    if (isDisabled) return;
-                    setSelected(service.id);
-                    setTimeout(() => onSelect(service), 280);
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.25rem" }}>
-                    {isDisabled && (
-                      <span className="popular-badge" style={{ background: "var(--text-muted)", color: "var(--surface)" }}>
-                        Not currently taking bookings
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="service-name">{service.title}</h3>
-
-                  {/* Size preview — show labels if variants exist */}
-                  {variants.length > 0 && (
-                    <p className="service-desc">
-                      {variants.map(v => v.label).join(" · ")}
-                    </p>
+            return (
+              <button
+                key={service.id}
+                role="radio"
+                aria-checked={selected === service.id}
+                aria-disabled={isDisabled}
+                disabled={isDisabled}
+                className={`service-card ${selected === service.id ? "selected" : ""} ${isDisabled ? "disabled" : ""}`}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  background: "none",
+                  border: "none",
+                  cursor: isDisabled ? "default" : "pointer",
+                  opacity: isDisabled ? 0.6 : 1,
+                }}
+                onClick={() => {
+                  if (isDisabled) return;
+                  setSelected(service.id);
+                  setTimeout(() => onSelect(service), 280);
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.25rem" }}>
+                  {isDisabled && (
+                    <span className="popular-badge" style={{ background: "var(--text-muted)", color: "var(--surface)" }}>
+                      Not currently taking bookings
+                    </span>
                   )}
+                </div>
+                <h3 className="service-name">{service.title}</h3>
 
-                  <div className="service-footer">
-                    <span className="service-price">from {minPrice} SEK</span>
-                    {isDisabled ? (
-                      <a
-                        href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}?text=${encodeURIComponent(`Hi! I'm interested in booking ${service.title} but it shows as unavailable. Could you let me know your availability?`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-ghost btn-sm"
-                        style={{ fontSize: "0.75rem", padding: "0.35rem 0.75rem", textDecoration: "none" }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        💬 WhatsApp us
-                      </a>
-                    ) : (
-                      <button
-                        className="btn-inline"
-                        style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)" }}
-                        onClick={() => {
-                          setSelected(service.id);
-                          setTimeout(() => onSelect(service), 280);
-                        }}
-                      >
-                        <span className="select-arrow">→</span>
-                      </button>
-                    )}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-      )
+                {/* Size preview — show labels if variants exist */}
+                {variants.length > 0 && (
+                  <p className="service-desc">
+                    {variants.map(v => v.label).join(" · ")}
+                  </p>
+                )}
+
+                <div className="service-footer">
+                  <span className="service-price">from {minPrice} SEK</span>
+                  {isDisabled ? (
+                    <a
+                      href={`https://wa.me/${WHATSAPP_NUMBER.replace("+", "")}?text=${encodeURIComponent(`Hi! I'm interested in booking ${service.title} but it shows as unavailable. Could you let me know your availability?`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-ghost btn-sm"
+                      style={{ fontSize: "0.75rem", padding: "0.35rem 0.75rem", textDecoration: "none" }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      💬 WhatsApp us
+                    </a>
+                  ) : (
+                    <button
+                      className="btn-inline"
+                      style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)" }}
+                      onClick={() => {
+                        setSelected(service.id);
+                        setTimeout(() => onSelect(service), 280);
+                      }}
+                    >
+                      <span className="select-arrow">→</span>
+                    </button>
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
     </div>
   );
 }
