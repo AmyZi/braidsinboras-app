@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
 };
 const CONTACT = {
-  email: "ami@braidsboras.se@gmail.com",
+  email: "ami@braidsboras.se",
   phoneDisplay: "0737 350 015",
   phoneHref: "tel:+46737350015",
 };
