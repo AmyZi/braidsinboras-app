@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import "@/styles/globals.css";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://braidsboras.se"),
@@ -25,8 +26,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="sv">
-      <Nav />
-      <body>{children}</body>
+      <body>
+        {/* Google tag (gtag.js) */}
+        <GoogleAnalytics gaId="G-K1EK1RRV4T" />
+        <Nav />
+        {children}
+      </body>
     </html>
   );
 }
