@@ -395,7 +395,7 @@ export default function BookingWizard() {
   const [step, setStep] = useState(0);
   const [booking, setBooking] = useState<BookingState>({ service: null, size: null, date: "", slot: null });
   const update = (data: Partial<BookingState>) => setBooking((b) => ({ ...b, ...data }));
-   const totalSteps = STEPS.length;
+  const totalSteps = STEPS.length;
   const formattedSelectedDate = booking.date
     ? new Date(booking.date + "T12:00:00").toLocaleDateString("en-SE", {
         weekday: "short",
