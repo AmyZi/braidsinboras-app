@@ -80,7 +80,7 @@ function CancelContent() {
       body: (
         <>
           <p className="alert alert-error">{message}</p>
-          <p className="step-subtitle">Please contact us at <strong>ebiojoidris@gmail.com</strong></p>
+          <p className="step-subtitle">Please contact us at <strong>ami@braidsboras.se@gmail.com</strong></p>
         </>
       ),
     },

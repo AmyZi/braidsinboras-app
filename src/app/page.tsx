@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   keywords: [
     "braids borås",
     "frisör borås",
+    "cornrows borås",
+    "crotchet install borås",
     "hårstyling borås",
     "frisör trandared",
     "mobile braider borås",
@@ -32,11 +34,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Braids in Borås | Prices, Styles & Online Booking with Ami",
     description:
-      "Book box braids, knotless, cornrows and more in Borås with fast online scheduling.",
+      "Book box braids, knotless, cornrows and crotchet install in Borås with fast online scheduling.",
   },
 };
 const CONTACT = {
-  email: "Ebiojoidris@gmail.com",
+  email: "ami@braidsboras.se@gmail.com",
   phoneDisplay: "0737 350 015",
   phoneHref: "tel:+46737350015",
 };
@@ -68,7 +70,7 @@ const WHY_CHOOSE = [
 const FAQS = [
   {
     q: "Do you do regular haircuts like a classic frisör in Borås?",
-    a: "Braids by Amy specializes in braids and protective styling rather than standard clipper/scissor cuts. If you are searching for braids, knotless, cornrows or hair styling in Borås, you are in the right place.",
+    a: "Braids by Ami specializes in braids and protective styling rather than standard clipper/scissor cuts. If you are searching for braids, knotless, cornrows or hair styling in Borås, you are in the right place.",
   },
   {
     q: "Can I book if I searched ‘hair salon near me’ in Borås?",
@@ -76,7 +78,7 @@ const FAQS = [
   },
   {
     q: "Do you work with afro hair textures?",
-    a: "Yes. Braids by Amy focuses on protective styles and afro hair care-friendly techniques, with recommendations based on your texture, density and desired finish.",
+    a: "Yes. Braids by Ami focuses on protective styles and afro hair care-friendly techniques, with recommendations based on your texture, density and desired finish.",
   },
   {
     q: "How much do braids cost?",
@@ -111,7 +113,7 @@ export default async function HomePage() {
   const localBusinessJsonLd = {
     "@context": "https://schema.org",
     "@type": "HairSalon",
-    name: "Braids by Amy",
+    name: "Braids by Ami",
     url: "https://braidsboras.se",
     telephone: "+46737350015",
     email: CONTACT.email,
@@ -168,7 +170,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── How it works + Why Amy ── */}
+      {/* ── How it works + Why Ami ── */}
       <section className="home-section">
         <div className="home-two-col">
           <div className="card">
@@ -184,7 +186,7 @@ export default async function HomePage() {
           </div>
           
           <div className="card">
-            <h2 className="step-title">Why clients choose Braids by Amy</h2>
+            <h2 className="step-title">Why clients choose Braids by Ami</h2>
             <div className="home-points">
               {WHY_CHOOSE.map((point) => (
                 <div key={point.title}>
@@ -223,7 +225,7 @@ export default async function HomePage() {
         </p>
          <div className="hero-cta-row">
           <Link href="/booking" className="btn btn-primary" style={{ width: "auto" }}>
-            Book with Amy
+            Book with Ami
           </Link>
           <a href={`mailto:${CONTACT.email}`} className="btn btn-ghost" style={{ width: "auto" }}>
             Ask a question first

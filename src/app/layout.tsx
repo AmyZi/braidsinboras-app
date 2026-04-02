@@ -8,8 +8,8 @@ export const metadata: Metadata = {
     template: "%s | BraidsInBorås",
   },
   description:
-    "Book professional braids in Borås with clear prices, secure deposit, and fast online booking. Box braids, knotless braids, cornrows, and more.",
-  keywords: ["braids borås", "box braids borås", "hair braiding borås", "knotless braids borås"],
+    "Book professional braids in Borås with clear prices, secure deposit, and fast online booking. Box braids, knotless braids, cornrows, and crotchet.",
+  keywords: ["braids borås", "box braids borås", "hair braiding borås", "knotless braids borås", "crotchet install"],
     alternates: {
     canonical: "/",
   },
