@@ -28,8 +28,7 @@ export async function POST(req: NextRequest) {
 
   const { customerName, customerEmail, service, servicePrice, startTime, notes } = parsed.data;
 
-  // const depositAmount = Math.round(servicePrice * 0.2) * 100;
-  const depositAmount = 500;
+  const depositAmount = Math.round(servicePrice * 0.2) * 100;
 
   const formattedTime = new Date(startTime).toLocaleString("en-SE", {
     weekday: "long", day: "numeric", month: "long",
