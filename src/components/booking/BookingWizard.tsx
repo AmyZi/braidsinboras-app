@@ -406,85 +406,88 @@ export default function BookingWizard() {
     : null;
   const canRestart = booking.service || booking.size || booking.date || booking.slot;
   return (
-    <div className="page-shell">
-      <header className="salon-header">
-        <div className="salon-name">BraidsInBorås</div>
-        <div className="salon-tagline">Professional braiding · Borås</div>
-      </header>
-      <div className="booking-notice" style={{ marginBottom: "0.75rem" }}>
-        <p>
-          Step {step + 1} of {totalSteps}: <strong>{STEPS[step]}</strong>
-        </p>
-        {canRestart ? (
-          <button
-            className="btn-inline"
-            style={{ background: "none", border: "none", padding: 0, marginTop: "0.25rem" }}
-            onClick={() => {
-              setBooking({ service: null, size: null, date: "", slot: null });
-              setStep(0);
-            }}
-          >
-            Start over
-          </button>
-        ) : null}
-      </div>
+    <>
+      <Nav />
+      <div className="page-shell">
+        <header className="salon-header">
+          <div className="salon-name">BraidsInBorås</div>
+          <div className="salon-tagline">Professional braiding · Borås</div>
+        </header>
+        <div className="booking-notice" style={{ marginBottom: "0.75rem" }}>
+          <p>
+            Step {step + 1} of {totalSteps}: <strong>{STEPS[step]}</strong>
+          </p>
+          {canRestart ? (
+            <button
+              className="btn-inline"
+              style={{ background: "none", border: "none", padding: 0, marginTop: "0.25rem" }}
+              onClick={() => {
+                setBooking({ service: null, size: null, date: "", slot: null });
+                setStep(0);
+              }}
+            >
+              Start over
+            </button>
+          ) : null}
+        </div>
 
-      <div className="progress-bar">
-        {STEPS.map((_, i) => <div key={i} className={`progress-seg ${i <= step ? "active" : ""}`} />)}
+        <div className="progress-bar">
+          {STEPS.map((_, i) => <div key={i} className={`progress-seg ${i <= step ? "active" : ""}`} />)}
+        </div>
+        <div className="progress-labels">
+          {STEPS.map((label, i) => (
+            <div key={label} className={`progress-lbl ${i === step ? "active" : ""}`}>{label}</div>
+          ))}
+        </div>
+        <div className="card">
+          {(booking.service || booking.size || booking.date || booking.slot) && (
+            <div className="booking-summary" style={{ marginBottom: "1rem" }}>
+              {booking.service && (
+                <div className="summary-row">
+                  <span>Service</span>
+                  <strong>{booking.service.title}</strong>
+                </div>
+              )}
+              {booking.size && (
+                <div className="summary-row">
+                  <span>Size</span>
+                  <strong>{booking.size.label}</strong>
+                </div>
+              )}
+              {formattedSelectedDate && (
+                <div className="summary-row">
+                  <span>Date</span>
+                  <strong>{formattedSelectedDate}</strong>
+                </div>
+              )}
+              {booking.slot?.label && (
+                <div className="summary-row">
+                  <span>Time</span>
+                  <strong>{booking.slot.label}</strong>
+                </div>
+              )}
+            </div>
+          )}
+          {step > 0 && (
+            <button className="back-btn" onClick={() => setStep((s) => s - 1)}>← Back</button>
+          )}
+          {step === 0 ? (
+            <ServiceSelector onSelect={(service) => { update({ service, size: null }); setStep(1); }} />
+          ) : step === 1 ? (
+            <SizeSelector
+              service={booking.service!}
+              onSelect={(size) => { update({ size }); setStep(2); }}
+              onSkip={() => setStep(2)}
+            />
+          ) : step === 2 ? (
+            <DatePicker onSelect={(date) => { update({ date }); setStep(3); }} />
+          ) : step === 3 ? (
+            <TimeSlotPicker date={booking.date} onSelect={(slot) => { update({ slot }); setStep(4); }} />
+          ) : (
+            <CustomerForm booking={booking} onSuccess={() => {}} />
+          )}
+        </div>
       </div>
-      <div className="progress-labels">
-        {STEPS.map((label, i) => (
-          <div key={label} className={`progress-lbl ${i === step ? "active" : ""}`}>{label}</div>
-        ))}
-      </div>
-      <div className="card">
-        {(booking.service || booking.size || booking.date || booking.slot) && (
-          <div className="booking-summary" style={{ marginBottom: "1rem" }}>
-            {booking.service && (
-              <div className="summary-row">
-                <span>Service</span>
-                <strong>{booking.service.title}</strong>
-              </div>
-            )}
-            {booking.size && (
-              <div className="summary-row">
-                <span>Size</span>
-                <strong>{booking.size.label}</strong>
-              </div>
-            )}
-            {formattedSelectedDate && (
-              <div className="summary-row">
-                <span>Date</span>
-                <strong>{formattedSelectedDate}</strong>
-              </div>
-            )}
-            {booking.slot?.label && (
-              <div className="summary-row">
-                <span>Time</span>
-                <strong>{booking.slot.label}</strong>
-              </div>
-            )}
-          </div>
-        )}
-        {step > 0 && (
-          <button className="back-btn" onClick={() => setStep((s) => s - 1)}>← Back</button>
-        )}
-        {step === 0 ? (
-          <ServiceSelector onSelect={(service) => { update({ service, size: null }); setStep(1); }} />
-        ) : step === 1 ? (
-          <SizeSelector
-            service={booking.service!}
-            onSelect={(size) => { update({ size }); setStep(2); }}
-            onSkip={() => setStep(2)}
-          />
-        ) : step === 2 ? (
-          <DatePicker onSelect={(date) => { update({ date }); setStep(3); }} />
-        ) : step === 3 ? (
-          <TimeSlotPicker date={booking.date} onSelect={(slot) => { update({ slot }); setStep(4); }} />
-        ) : (
-          <CustomerForm booking={booking} onSuccess={() => {}} />
-        )}
-      </div>
-    </div>
+    </>
   );
 }
