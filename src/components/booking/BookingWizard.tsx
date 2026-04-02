@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import "@/styles/globals.css";
-import Nav from "./Nav";
+import Nav from "../Nav";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type SizeVariant = {
