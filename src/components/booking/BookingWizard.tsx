@@ -20,6 +20,10 @@ type Service = {
   available: boolean;
   sizeVariants?: string;
   hoursNote?: string;
+   featuredImage?: {
+    sourceUrl: string;
+    altText?: string;
+  } | null;
 };
 
 type Slot = { start: string; label: string };
@@ -108,6 +112,13 @@ function ServiceSelector({ onSelect }: { onSelect: (s: Service) => void }) {
                     </span>
                   )}
                 </div>
+                {service.featuredImage?.sourceUrl && (
+                  <img
+                    src={service.featuredImage.sourceUrl}
+                    alt={service.featuredImage.altText || service.title}
+                    className="service-featured-image"
+                  />
+                )}
                 <h3 className="service-name">{service.title}</h3>
 
                 {/* Size preview — show labels if variants exist */}

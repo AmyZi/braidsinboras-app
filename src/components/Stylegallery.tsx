@@ -3,45 +3,51 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-const STYLES = [
+type GalleryItem = {
+  image: string;
+  title: string;
+  caption: string;
+};
+
+const FALLBACK_STYLES: GalleryItem[] = [
   {
-    name: "Cornrows",
-    slug: "cornrows",
-    color: "#c9a96e",
-    gradient: "linear-gradient(135deg, #1a1410 0%, #2d1f0e 100%)",
-    description: "Clean, precise cornrow styling tailored to your pattern and density.",
-    image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/plain_cornrow-1.jpeg",
+    title: "Cornrows",
+    caption: "Clean, precise cornrow styling tailored to your pattern and density.",
+     image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/plain_cornrow-1.jpeg",
   },
   {
-    name: "Stitch Braids",
-    slug: "stitch-braids",
-    color: "#e8cc9a",
-    gradient: "linear-gradient(135deg, #111418 0%, #1a2030 100%)",
-    description: "Crisp stitch braids for a sharp, defined finish that lasts.",
-    image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/stitch_braidsjpeg.jpeg",
+    title: "Stitch Braids",
+    caption: "Crisp stitch braids for a sharp, defined finish that lasts.",
+    image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/stitch_braids-1.jpeg",
   },
   {
-    name: "Coi Leray Braids",
-    slug: "coi-leray-braids",
-    color: "#c9a96e",
-    gradient: "linear-gradient(135deg, #161210 0%, #2a1a18 100%)",
-    description: "The signature simple and bold braids.",
-    image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/coiLeray.jpeg",
+    title: "Coi Leray Braids",
+    caption: "The signature simple and bold braids.",
+    image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/coi_leray_braids-1.jpeg",
   },
-  {
-    name: "S-Medium Knotless",
-    slug: "knotless-box-braids",
-    color: "#e8cc9a",
-    gradient: "linear-gradient(135deg, #101416 0%, #1a2820 100%)",
-    description: "Medium knotless box braids — gentle on the scalp, natural movement.",
-    image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/smeduim_knotless.jpeg",
-  },
+
 ];
 
+const CARD_GRADIENT = "linear-gradient(135deg, #1a1410 0%, #2d1f0e 100%)";
+
 export default function StyleGallery() {
+  const [items, setItems] = useState<GalleryItem[]>(FALLBACK_STYLES);
   const [active, setActive] = useState(0);
   const [animating, setAnimating] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    fetch("/api/style-gallery", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((data) => {
+        if (Array.isArray(data.items) && data.items.length > 0) {
+          setItems(data.items);
+        }
+      })
+      .catch(() => {
+        // Keep fallback gallery when API is unavailable.
+      });
+  }, []);
 
   const go = (index: number) => {
     if (animating) return;
@@ -52,70 +58,66 @@ export default function StyleGallery() {
     }, 300);
   };
 
-  const next = () => go((active + 1) % STYLES.length);
-  const prev = () => go((active - 1 + STYLES.length) % STYLES.length);
+ const next = () => go((active + 1) % items.length);
+  const prev = () => go((active - 1 + items.length) % items.length);
+
 
   useEffect(() => {
+    if (items.length <= 1) return;
     intervalRef.current = setInterval(next, 4000);
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
-  }, [active]);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [active, items.length]);
 
-  const style = STYLES[active];
+  const style = items[active] ?? FALLBACK_STYLES[0];
 
   return (
     <section className="gallery-section">
       <div
         className={`gallery-card ${animating ? "gallery-card-exit" : "gallery-card-enter"}`}
-        style={{ background: style.gradient }}
+        style={{ background: CARD_GRADIENT }}
       >
         {/* Photo */}
         <div className="gallery-visual">
-          <img
-            src={style.image}
-            alt={`${style.name} in Borås by Ami`}
-            className="gallery-img"
-          />
-          <div className="gallery-img-overlay" style={{ background: style.gradient }} />
+          <img src={style.image} alt={style.title} className="gallery-img" />
+          <div className="gallery-img-overlay" style={{ background: CARD_GRADIENT }} />
         </div>
 
-        {/* Content */}
         <div className="gallery-content">
           <div className="gallery-counter">
-            {active + 1} / {STYLES.length}
+            {active + 1} / {items.length}
           </div>
-          <h3 className="gallery-style-name" style={{ color: style.color }}>
-            {style.name}
+          <h3 className="gallery-style-name" style={{ color: "#e8cc9a" }}>
+            {style.title}
           </h3>
-          <p className="gallery-style-desc">{style.description}</p>
-          <Link
-            href="/booking"
-            className="btn btn-primary"
-            style={{ width: "auto", marginTop: "1.5rem" }}
-          >
+           <p className="gallery-style-desc">{style.caption}</p>
+          <Link href="/booking" className="btn btn-primary" style={{ width: "auto", marginTop: "1.5rem" }}>
             Book this style →
           </Link>
         </div>
       </div>
 
-      {/* Controls */}
-      <div className="gallery-controls">
-        <button className="gallery-arrow" onClick={prev} aria-label="Previous style">
-          ←
-        </button>
-        <div className="gallery-dots">
-          {STYLES.map((_, i) => (
-            <button
-              key={i}
-              className={`gallery-dot ${i === active ? "active" : ""}`}
-              onClick={() => go(i)}
-              aria-label={`Go to ${STYLES[i].name}`}
-            />
-          ))}
+      {items.length > 1 && (
+        <div className="gallery-controls">
+          <button className="gallery-arrow" onClick={prev} aria-label="Previous style">
+            ←
+          </button>
+          <div className="gallery-dots">
+            {items.map((item, i) => (
+              <button
+                key={`${item.image}-${i}`}
+                className={`gallery-dot ${i === active ? "active" : ""}`}
+                onClick={() => go(i)}
+                aria-label={`Go to ${item.title}`}
+              />
+            ))}
+          </div>
+          <button className="gallery-arrow" onClick={next} aria-label="Next style">
+            →
+          </button>
         </div>
-        <button className="gallery-arrow" onClick={next} aria-label="Next style">
-          →
-        </button>
-      </div>
+      )}
     </section>
   );
 }
