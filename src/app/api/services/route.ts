@@ -8,7 +8,7 @@ export async function GET() {
   const wpPass = process.env.WP_ADMIN_APP_PASSWORD || "";
 
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/service?per_page=50&status=publish`, {
+    const res = await fetch(`${WP_URL}/wp-json/wp/v2/service?per_page=50&status=publish&_embed=wp:featuredmedia`, {
       headers: {
         "Authorization": "Basic " + Buffer.from(`${wpUser}:${wpPass}`).toString("base64"),
       },
@@ -25,6 +25,12 @@ export async function GET() {
       sizeVariants: s.meta?.size_variants || "[]",
       hoursNote: s.meta?.hours_note || "",
       available: s.meta?.available !== false, // default true unless explicitly false
+      featuredImage: s._embedded?.["wp:featuredmedia"]?.[0]
+        ? {
+            sourceUrl: s._embedded["wp:featuredmedia"][0].source_url,
+            altText: s._embedded["wp:featuredmedia"][0].alt_text || s.title.rendered,
+          }
+        : null,
     }));
 
     const response = NextResponse.json({ services });
