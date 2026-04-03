@@ -1246,9 +1246,144 @@ h1, h2, h3 {
 
 .gallery-dot.active { background: var(--gold); transform: scale(1.3); }
 
+/* ── Blog ── */
+.blog-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.blog-card:hover { border-color: var(--gold); }
+
+.blog-card-img { overflow: hidden; }
+.blog-card-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.blog-card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.blog-card-date {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.blog-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.blog-card-excerpt {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.blog-card-read {
+  font-size: 0.8rem;
+  color: var(--gold);
+  margin-top: auto;
+}
+
+.blog-hero-img {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+.blog-hero-img img { width: 100%; height: 100%; object-fit: cover; }
+.blog-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, var(--bg) 100%);
+}
+
+.blog-back {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+.blog-back:hover { color: var(--gold); }
+
+.blog-content { line-height: 1.85; color: var(--text-muted); }
+.blog-content h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--text); margin: 2rem 0 0.75rem; }
+.blog-content h3 { font-size: 1.1rem; color: var(--text); margin: 1.5rem 0 0.5rem; }
+.blog-content p { margin-bottom: 1.25rem; }
+.blog-content ul, .blog-content ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+.blog-content li { margin-bottom: 0.5rem; }
+.blog-content a { color: var(--gold); text-decoration: underline; }
+.blog-content img { width: 100%; border-radius: 8px; margin: 1.5rem 0; }
+.blog-content strong { color: var(--text); }
+
+/* ── Service page ── */
+.service-hero {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 1.5rem 3rem;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(201,169,110,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 80%, rgba(139,94,60,0.08) 0%, transparent 55%);
+}
+
+.service-hero-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin-top: 0.5rem;
+}
+
+.service-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.service-table th {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+
+.service-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--surface);
+  color: var(--text);
+}
+
+.service-table tr:last-child td { border-bottom: none; }
+.service-table tr:hover td { background: rgba(201,169,110,0.04); }
+
+/* WP editor content */
+.service-content { line-height: 1.8; }
+.service-content h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--text); margin: 1.5rem 0 0.75rem; }
+.service-content p { color: var(--text-muted); margin-bottom: 1rem; }
+.service-content ul { color: var(--text-muted); padding-left: 1.25rem; }
+.service-content li { margin-bottom: 0.5rem; }
+
+
 @media (max-width: 560px) {
-  .gallery-card { grid-template-columns: 1fr; }
+  .gallery-card, .blog-card { grid-template-columns: 1fr; }
   .gallery-visual { min-height: 160px; }
+  .blog-card-img { height: 180px;}
 }
 
 @media (max-width: 480px) {
