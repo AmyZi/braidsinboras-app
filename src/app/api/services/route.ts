@@ -25,7 +25,7 @@ export async function GET() {
       sizeVariants: s.meta?.size_variants || "[]",
       hoursNote: s.meta?.hours_note || "",
       available: s.meta?.available !== false, // default true unless explicitly false
-      featuredImage: s._embedded?.["wp:featuredmedia"]?.[0]
+      featuredImage: s._embedded?.["wp:featuredmedia"]?.[0]?.source_url
         ? {
             sourceUrl: s._embedded["wp:featuredmedia"][0].source_url,
             altText: s._embedded["wp:featuredmedia"][0].alt_text || s.title.rendered,
