@@ -37,7 +37,7 @@ export default function StyleGallery() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    fetch("/app/api/stylegallery", { cache: "no-store" })
+    fetch("/api/stylegallery", { cache: "no-store" })
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data.items) && data.items.length > 0) {
