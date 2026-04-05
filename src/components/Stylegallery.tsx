@@ -71,6 +71,8 @@ export default function StyleGallery() {
   }, [active, items.length]);
 
   const style = items[active] ?? FALLBACK_STYLES[0];
+  const totalItems = items.length;
+
 
   return (
     <section className="gallery-section">
@@ -86,7 +88,7 @@ export default function StyleGallery() {
 
         <div className="gallery-content">
           <div className="gallery-counter">
-            {active + 1} of {items.length}
+            {active + 1} / {items.length}
           </div>
           <h3 className="gallery-style-name" style={{ color: "#e8cc9a" }}>
             {style.title}
