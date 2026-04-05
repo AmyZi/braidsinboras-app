@@ -93,7 +93,6 @@ const HOW_IT_WORKS = [
   "Pick your date and start time",
   "Pay 20% deposit securely",
   { text: "Or contact Ami on WhatsApp to pay via Swish", href: WHATSAPP_SWISH_URL },
-  "Or contact Ami on whatsapp to pay through Swish",
   "Get confirmation and appointment details",
 ];
 
@@ -187,7 +186,7 @@ export default async function HomePage() {
                   {typeof step === "string" ? (
                     step
                   ) : (
-                    <a href={step.href} target="_blank" rel="noopener noreferrer">
+                    <a href={step.href} target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold)" }}>
                       {step.text}
                     </a>
                   )}
