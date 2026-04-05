@@ -3,7 +3,7 @@ import { getServices } from "@/lib/api";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import StyleGallery from "@/components/Stylegallery"; 
+import StyleGallery from "@/components/Stylegallery";
 
 export const metadata: Metadata = {
   title: "Braids & Afro Hair Stylist in Borås | Book Online with Ami",
@@ -85,12 +85,18 @@ const FAQS = [
     a: "Each service shows a starting price. Final time and total are based on hair length, density, and style complexity, confirmed at your appointment.",
   },
 ];
+
+const WHATSAPP_SWISH_URL = `https://wa.me/46737350019?text=${encodeURIComponent("Hi! I'm interested in booking a style and would like to secure a deposit through Swish.")}`;
+
 const HOW_IT_WORKS = [
   "Choose your braid style",
   "Pick your date and start time",
   "Pay 20% deposit securely",
+  { text: "Or contact Ami on WhatsApp to pay via Swish", href: WHATSAPP_SWISH_URL },
+  "Or contact Ami on whatsapp to pay through Swish",
   "Get confirmation and appointment details",
 ];
+
 const QUICK_SEARCH_LINKS = [
   { label: "frisör borås (braids)", href: "/booking" },
   { label: "afro hair borås", href: "/booking" },
@@ -176,8 +182,16 @@ export default async function HomePage() {
           <div className="card">
             <h2 className="step-title">How booking works</h2>
             <ol className="home-ordered-list">
-              {HOW_IT_WORKS.map((step) => (
-                <li key={step}>{step}</li>
+              {HOW_IT_WORKS.map((step, index) => (
+                <li key={index}>
+                  {typeof step === "string" ? (
+                    step
+                  ) : (
+                    <a href={step.href} target="_blank" rel="noopener noreferrer">
+                      {step.text}
+                    </a>
+                  )}
+                </li>
               ))}
             </ol>
             <Link href="/booking" className="btn btn-primary" style={{ marginTop: "1.25rem", width: "auto" }}>
