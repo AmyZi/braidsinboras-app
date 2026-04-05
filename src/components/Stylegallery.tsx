@@ -86,7 +86,7 @@ export default function StyleGallery() {
 
         <div className="gallery-content">
           <div className="gallery-counter">
-            {active + 1} / {items.length}
+            {active + 1} of {items.length}
           </div>
           <h3 className="gallery-style-name" style={{ color: "#e8cc9a" }}>
             {style.title}
