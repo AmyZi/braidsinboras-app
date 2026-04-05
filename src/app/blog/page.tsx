@@ -1,5 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import "@/styles/globals.css";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Blog | Braids by Ami — Hair Tips & Style Guides in Borås",
@@ -21,7 +24,7 @@ async function getPosts(): Promise<WPPost[]> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_WP_URL}/wp-json/wp/v2/posts?per_page=20&status=publish&_embed`,
-      { next: { revalidate: 3600 } }
+      { next: { revalidate: 60 } }
     );
     if (!res.ok) return [];
     return res.json();
