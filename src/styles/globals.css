@@ -1439,6 +1439,14 @@ service-featured-image {
     max-width: 130px;
 
   }
+  .blog-content figure {
+    margin: 1rem 0;
+  }
+
+  .blog-content img {
+    max-height: 40vh;
+    border-radius: 6px;
+  }
 }
 @media (max-width: 480px) {
   .card { padding: 1.25rem; }
