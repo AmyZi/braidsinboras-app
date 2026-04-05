@@ -1179,7 +1179,7 @@ service-featured-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center;
   position: absolute;
   inset: 0;
 }
@@ -1241,8 +1241,13 @@ service-featured-image {
 
 .gallery-arrow:hover { border-color: var(--gold); color: var(--gold); }
 
-.gallery-dots { display: flex; gap: 0.5rem; }
-
+.gallery-dots {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: min(70vw, 420px);
+}
 .gallery-dot {
   width: 8px;
   height: 8px;
@@ -1391,10 +1396,20 @@ service-featured-image {
 
 @media (max-width: 560px) {
   .gallery-card, .blog-card { grid-template-columns: 1fr; }
-  .gallery-visual { min-height: 160px; }
+  .gallery-visual {
+    min-height: 220px;
+    aspect-ratio: 4 / 3;
+  }
+  .gallery-content { padding: 1.25rem; }
+  .gallery-controls {
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .gallery-dots {
+    max-width: 60vw;
+  }
   .blog-card-img { height: 180px;}
 }
-
 @media (max-width: 480px) {
   .card { padding: 1.25rem; }
   .calendar-row { grid-template-columns: repeat(3, 1fr); }
