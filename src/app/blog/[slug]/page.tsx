@@ -138,7 +138,13 @@ export default async function BlogPostPage({ params }: Props) {
           <p className="step-subtitle" style={{ marginBottom: "1rem" }}>
             Ready to book your next style?
           </p>
-          <Link href="/booking" className="btn btn-primary" style={{ width: "auto" }}>
+          <Link 
+            href="/booking" 
+            className="btn btn-primary" 
+            style={{ width: "auto" }}
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
             Book with Ami →
           </Link>
         </div>
