@@ -13,19 +13,18 @@ const FALLBACK_STYLES: GalleryItem[] = [
   {
     title: "Cornrows",
     caption: "Clean, precise cornrow styling tailored to your pattern and density.",
-     image: "https://res.cloudinary.com/dh1zzn3o4/image/upload/v1777418544/plain_cornrow_kdzwrn.jpg.jpeg",
+    image: "https://res.cloudinary.com/dh1zzn3o4/image/upload/f_auto,q_auto/plain_cornrow_kdzwrn",
   },
   {
     title: "Stitch Braids",
     caption: "Crisp stitch braids for a sharp, defined finish that lasts.",
-    image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/stitch_braids-1.jpeg",
+    image: "https://res.cloudinary.com/dh1zzn3o4/image/upload/f_auto,q_auto/stitch_braidsjpeg_k9v8ye",
   },
   {
     title: "Coi Leray Braids",
     caption: "The signature simple and bold braids.",
-    image: "https://braidsinboras-production-800c.up.railway.app/wp-content/uploads/2026/03/coi_leray_braids-1.jpeg",
+    image: "https://res.cloudinary.com/dh1zzn3o4/image/upload/f_auto,q_auto/coiLeray_mikbob",
   },
-
 ];
 
 const CARD_GRADIENT = "linear-gradient(135deg, #1a1410 0%, #2d1f0e 100%)";
