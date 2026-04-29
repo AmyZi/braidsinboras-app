@@ -2,48 +2,36 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-type WPMediaItem = {
-  source_url?: string;
-  title?: { rendered?: string };
-  caption?: { rendered?: string };
-};
-
-function stripHtml(value?: string): string {
-  return (value || "").replace(/<[^>]*>/g, "").trim();
-}
-
 export async function GET() {
-  const WP_URL = process.env.NEXT_PUBLIC_WP_URL;
-  const wpUser = process.env.WP_ADMIN_USER || "admin";
-  const wpPass = process.env.WP_ADMIN_APP_PASSWORD || "";
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
 
-  if (!WP_URL) {
+  if (!cloudName || !apiKey || !apiSecret) {
     return NextResponse.json({ items: [] });
   }
 
   try {
+    const credentials = Buffer.from(`${apiKey}:${apiSecret}`).toString("base64");
+
     const res = await fetch(
-      `${WP_URL}/wp-json/wp/v2/media?search=stylegallery&per_page=30&orderby=date&order=desc`,
+      `https://api.cloudinary.com/v1_1/${cloudName}/resources/image?prefix=braidsboras/gallery&max_results=20`,
       {
-        headers: {
-          Authorization: "Basic " + Buffer.from(`${wpUser}:${wpPass}`).toString("base64"),
-        },
+        headers: { Authorization: `Basic ${credentials}` },
         cache: "no-store",
       }
     );
 
-    const data: WPMediaItem[] = await res.json();
+    const data = await res.json();
 
-    const items = data
-      .filter((item) => Boolean(item.source_url))
-      .map((item) => ({
-        image: item.source_url as string,
-        title: stripHtml(item.title?.rendered) || "Style Gallery",
-        caption: stripHtml(item.caption?.rendered) || "",
-      }));
+    const items = (data.resources || []).map((r: any) => ({
+      image: `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_800/${r.public_id}`,
+      title: r.context?.custom?.caption || r.public_id.split("/").pop().replace(/-|_/g, " "),
+      caption: r.context?.custom?.alt || "",
+    }));
 
     return NextResponse.json({ items });
   } catch {
-    return NextResponse.json({ items: [] }, { status: 200 });
+    return NextResponse.json({ items: [] });
   }
 }
